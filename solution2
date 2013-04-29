@@ -1,0 +1,266 @@
+import java.io.*;
+import java.util.*;
+import java.text.*;
+import java.math.*;
+import java.util.regex.*;
+
+public class Solution {
+  public static int INF=99999;
+	public static int MAXDEPTH=0;
+	public static int MDEPTH=8;
+	
+	public static String toString2(char [] v){
+		String s = new String();
+		for(int i = 0; i < v.length; i++)
+			s+= v[i]; 
+		return s;
+	}
+	
+	public static void porti(char[][] board, int x, int y){
+		int i = 0, j = 0 ;
+		for( i = 0; i < x; i++)
+			for( j = 0; j < y; j ++){
+				if(board[i][j] == '-'){
+					if(board[i-1][j] == '#' && board[i+1][j] == '#')
+						board[i][j] = 'p';
+					else if (board[i][j+1] == '#' && board[i][j-1] == '#')
+						board[i][j] = 'p';
+				}
+			}
+	}
+	
+	public static int[] available_moves(int x, int y, char[][] board){
+		int [] result = new int[8];
+		int i = 0;
+		if(board[x][y-1] == '-' || board[x][y-1] == 'p'){
+			result[i] = x;
+			result[i+1] = y-1;
+			i = i+2;
+		}
+		if(board[x-1][y] == '-' || board[x-1][y] == 'p' ){
+			result[i] = x-1;			
+			result[i+1] = y;
+			i = i+2;
+		}
+		if(board[x][y+1] == '-' || board[x][y+1] == 'p'){
+			result[i] = x;
+			result[i+1] = y+1;
+			i = i+2;
+		}
+		if(board[x+1][y] == '-' || board[x+1][y] == 'p'){
+			result[i] = x+1;
+			result[i+1] = y;
+			i = i+2;
+		}
+		
+		return result;
+	}
+	
+	
+
+public static int[] negaMax(char[][] board, char ply1,char ply2, int rand1,int coloana1,int rand2, int coloana2, int depth)
+{ int score,max=-INF;
+int [] vmax=new int[3];
+int [] v=new int[3];
+//ARBORELE DE SOLUTII VA AVEA ADANCIMEA MDEPTH
+if(depth<MDEPTH){
+//DACA BOTUL ADVERSARULUI NU MAI ARE CE MUTARE SA FACA SCORUL INTORS VA FI MAXIM 
+	if((board[rand2-1][coloana2]!='-'&&board[rand2+1][coloana2]!='-'&&board[rand2][coloana2-1]!='-'&&board[rand2][coloana2+1]!='-') &&
+			(board[rand2-1][coloana2]!='p'&&board[rand2+1][coloana2]!='p'&&board[rand2][coloana2-1]!='p'&&board[rand2][coloana2+1]!='p')){
+		//CAZUL DE EGALITATE
+			if((board[rand1-1][coloana1]!='-'&&board[rand1+1][coloana1]!='-'&&board[rand1][coloana1-1]!='-'&&board[rand1][coloana1+1]!='-')
+					&& (board[rand1-1][coloana1]!='p'&&board[rand1+1][coloana1]!='p'&&board[rand1][coloana1-1]!='p'&&board[rand1][coloana1+1]!='p'))
+				{
+				vmax[0]=0;
+				vmax[1]=rand1-1;
+				vmax[2]=coloana1;
+				return vmax;
+				}
+			else 
+			{ //CAZUL DE VICTORIE
+				//System.out.println("123456789\n");	
+			vmax[0]=INF;
+			if(board[rand1-1][coloana1]=='-' || board[rand1-1][coloana1]=='p')
+				{vmax[1]=rand1-1;
+				vmax[2]=coloana1;}
+				else if(board[rand1+1][coloana1]=='-' || board[rand1+1][coloana1]=='p')
+					{vmax[1]=rand1+1;
+					vmax[2]=coloana1;}
+					else if(board[rand1][coloana1-1]=='-' || board[rand1][coloana1-1]=='p')
+						{vmax[1]=rand1;
+						vmax[2]=coloana1-1;}
+						else if(board[rand1][coloana1+1]=='-' || board[rand1][coloana1+1]=='p')
+							{vmax[1]=rand1;
+							vmax[2]=coloana1+1;}
+					//System.out.print(depth+"  ");
+					return vmax;
+			}
+			}
+			//DACA BOTUL PIERDE SCORUL VA PRIMI VALOARE -INF
+	else if((board[rand1-1][coloana1]!='-'&&board[rand1+1][coloana1]!='-'&&board[rand1][coloana1-1]!='-'&&board[rand1][coloana1+1]!='-')
+			&& (board[rand1-1][coloana1]!='p'&&board[rand1+1][coloana1]!='p'&&board[rand1][coloana1-1]!='p'&&board[rand1][coloana1+1]!='p')){
+			
+		vmax[0]=-INF;
+				return vmax;
+			}
+	else{
+		//System.out.println("*****\n");
+		//if(board[rand1][coloana1] =='p'){
+			//vmax[0]+= 555555;
+			//System.out.println("IUIUIUIU\n");
+//	    }
+		vmax[0] = 0;
+	int [] vect1 = new int [8];
+	int [] vect2 = new int [8];
+	vect1 = available_moves(rand1, coloana1, board);
+	vect2 = available_moves(rand2, coloana2, board);
+	
+	for(int i = 0; i < 8; i = i+2){
+		if(vect1[i] != 0 && vect1[i+1] != 0){
+			for(int j = 0; j < 8; j = j+2){
+				if(vect2[j] != 0 && vect2[j+1] != 0){
+					int p1 = 1, p2 = 1;
+					if(board[vect1[i]][vect1[i+1]] == 'p')
+							p1=0;
+					if(board[vect2[j]][vect2[j+1]] == 'p')
+							p2=0;
+					
+					if(board[vect1[i]][vect1[i+1]]=='p'){
+						vmax[0]+= 10;
+						System.out.println("IUIUIUIU\n");
+				    }
+					
+					board[vect1[i]][vect1[i+1]]=ply1;
+					board[vect2[j]][vect2[j+1]]=ply2;
+				
+					v = negaMax(board,ply1,ply2,vect1[i],vect1[i+1],vect2[j],vect2[j+1],depth+1);
+					if(v[0]>max){
+						max=v[0];
+						vmax[0]+=max;
+						if(depth==MAXDEPTH){
+							vmax[1]=vect1[i];
+							vmax[2]=vect1[i+1];
+							}
+						}
+		
+					if(p1 == 1)
+						board[vect1[i]][vect1[i+1]]='-';
+					else
+						board[vect1[i]][vect1[i+1]]='p';
+					if(p2 == 1)
+						board[vect2[j]][vect2[j+1]]='-';
+					else 
+						board[vect2[j]][vect2[j+1]]='p';
+					
+				}
+			}
+		}
+			
+	}
+	
+	
+	}
+	
+	
+	//vmax[0]+= max +depth;
+	//System.out.print(vmax[0] +" ");
+	return vmax;
+}
+
+else
+	{
+	vmax[0]=0;
+	return vmax;	
+	}
+			
+}
+	 
+
+public static String getMove(int l1, int c1, int l2, int c2)
+{	String a = new String();
+	if(c1-c2 == -1)  a= "LEFT";
+	else if(c1-c2 == 1) a= "RIGHT";
+	else if(l1-l2== -1) a= "UP";
+	else if(l1-l2 == 1) a= "DOWN";
+	return a;
+}
+
+
+public static void nextMove(String player, int[] pos, String [] board, int [] size){
+	
+	int aux1,aux2;
+	String aux=new String();
+	int nrand,ncol;
+	nrand = board.length;
+	ncol = board[0].length();
+	char [][] c = new char[nrand][ncol];
+	for (int i =0; i < nrand; i++)
+		c[i] = board[i].toCharArray();
+	porti(c, size[0], size[1]);
+	
+	for(int i = 0; i<size[0]; i++)
+		{for(int j=0; j< size[1]; j++)
+			System.out.print(c[i][j]);
+	System.out.print("\n");}
+		
+	/*char [][] c1 = new char[nrand][ncol];
+	for (int i =0; i < nrand; i++)
+		c1[i] = board[i].toCharArray();*/
+	int [] vect = new int[8];
+	vect = available_moves(pos[0], pos[1], c);
+	for(int i =0; i<8; i++)
+		System.out.println(vect[i] +" ");
+	
+	if(player.charAt(0)=='g') {
+		aux1=pos[2];aux2=pos[3];
+		int [] k=new int[3];
+		k=negaMax(c,'g','r',pos[2],pos[3],pos[0],pos[1],0);
+		c[k[1]][k[2]]='g';
+		aux = getMove(k[1],k[2],pos[2],pos[3]);
+	}
+							
+	else {
+		aux1=pos[0];
+		aux2=pos[1];
+		int [] k=new int[3];
+		//k[0]=-INF;
+		k=negaMax(c,'r','g',pos[0],pos[1],pos[2],pos[3],0);
+		System.out.println(k[0] +" " +k[1] +" " + k[2] + " " +pos[0] +" " +pos[1]);
+		c[k[1]][k[2]]='r';
+		aux = getMove(k[1],k[2],pos[0],pos[1]);
+	}
+	
+	for (int i =0; i < nrand; i++)
+		board[i] = toString2(c[i]);	
+	
+	System.out.print(aux);	
+  }
+
+public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        in.useDelimiter("\n");
+        String player = in.next();
+        String pos = in.next();
+        String[] str_pos = pos.split(" ");
+        int[] position = new int[4];
+        int[] sizes = new int[2];
+
+        for(int i=0;i<4;i++) {
+            position[i] = Integer.parseInt(str_pos[i]);
+        }
+        pos = in.next();
+        str_pos = pos.split(" ");
+        for(int i=0;i<2;i++) {
+            sizes[i] = Integer.parseInt(str_pos[i]);
+        }
+
+        String board[] = new String[sizes[ 0 ]];
+
+        for(int i = 0; i < sizes[ 0 ]; i++) {
+            board[i] = in.next();
+        }
+
+    nextMove(player,position,board,sizes);
+    
+    }
+}

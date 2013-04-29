@@ -1,0 +1,243 @@
+if(board[rand1][coloana1-1]=='-') {
+  				if(board[rand2][coloana2-1]=='-'){
+					board[rand1][coloana1-1]=ply1;board[rand2][coloana2-1]=ply2;
+					v =negaMax(board,ply1,ply2,rand1,coloana1-1,rand2,coloana2-1,depth+1);
+					if(v[0]>max){
+							max=v[0];
+							if(depth==MAXDEPTH){
+								vmax[1]=rand1;
+								vmax[2]=coloana1-1;
+								}
+							}
+					board[rand1][coloana1-1]='-';
+					board[rand2][coloana2-1]='-';
+					
+				}
+					if(board[rand2][coloana2+1]=='-'){
+						board[rand1][coloana1-1]=ply1;board[rand2][coloana2+1]=ply2;
+						v =negaMax(board,ply1,ply2,rand1,coloana1-1,rand2,coloana2+1,depth+1);
+						if(v[0]>max){
+							max=v[0];
+							if(depth==MAXDEPTH){
+								vmax[1]=rand1;
+								vmax[2]=coloana1-1;
+								}
+							}
+					board[rand1][coloana1-1]='-';
+					board[rand2][coloana2+1]='-';	
+				}
+					if(board[rand2-1][coloana2]=='-'){
+						board[rand1][coloana1-1]=ply1;
+						board[rand2-1][coloana2]=ply2;
+						v =negaMax(board,ply1,ply2,rand1,coloana1-1,rand2-1,coloana2,depth+1);
+						if(v[0]>max)
+							{max=v[0];
+							if(depth==MAXDEPTH){
+								vmax[1]=rand1;
+								vmax[2]=coloana1-1;
+							}
+						}
+					
+						board[rand1][coloana1-1]='-';
+						board[rand2-1][coloana2]='-';	
+				}
+					if(board[rand2+1][coloana2]=='-'){
+						board[rand1][coloana1-1]=ply1;
+						board[rand2+1][coloana2]=ply2;
+						v =negaMax(board,ply1,ply2,rand1,coloana1-1,rand2+1,coloana2,depth+1);
+						if(v[0]>max){
+							max=v[0];
+							if(depth==MAXDEPTH){
+								vmax[1]=rand1;
+								vmax[2]=coloana1-1;
+								}
+						}	
+						board[rand1][coloana1-1]='-';
+						board[rand2+1][coloana2]='-';	
+					}
+				}
+	//TESTAM MUTAREA IN SUS 
+	if(board[rand1-1][coloana1]=='-') {
+		if(board[rand2][coloana2-1]=='-'){
+			board[rand1-1][coloana1]=ply1;
+			board[rand2][coloana2-1]=ply2;
+			v =negaMax(board,ply1,ply2,rand1-1,coloana1,rand2,coloana2-1,depth+1);
+			if(v[0]>max){
+				max=v[0];
+				if(depth==MAXDEPTH){
+				vmax[1]=rand1-1;
+				vmax[2]=coloana1;
+				}
+			}
+			board[rand1-1][coloana1]='-';
+			board[rand2][coloana2-1]='-';	
+	}
+		if(board[rand2][coloana2+1]=='-'){
+			board[rand1-1][coloana1]=ply1;
+			board[rand2][coloana2+1]=ply2;
+			v =negaMax(board,ply1,ply2,rand1-1,coloana1,rand2,coloana2+1,depth+1);
+			if(v[0]>max){
+				max=v[0];
+				if(depth==MAXDEPTH){
+					vmax[1]=rand1-1;
+					vmax[2]=coloana1;
+				}
+			}
+			board[rand1-1][coloana1]='-';
+			board[rand2][coloana2+1]='-';	
+	}
+		if(board[rand2-1][coloana2]=='-'){
+			board[rand1-1][coloana1]=ply1;
+			board[rand2-1][coloana2]=ply2;
+			v =negaMax(board,ply1,ply2,rand1-1,coloana1,rand2-1,coloana2,depth+1);
+			if(v[0]>max){
+				max=v[0];
+				if(depth==MAXDEPTH){
+				vmax[1]=rand1-1;
+				vmax[2]=coloana1;
+				}
+			}
+			board[rand1-1][coloana1]='-';
+			board[rand2-1][coloana2]='-';
+	}
+		if(board[rand2+1][coloana2]=='-'){
+			board[rand1-1][coloana1]=ply1;
+			board[rand2+1][coloana2]=ply2;
+			v =negaMax(board,ply1,ply2,rand1-1,coloana1,rand2+1,coloana2,depth+1);
+			if(v[0]>max){
+				max=v[0];
+				if(depth==MAXDEPTH){
+				vmax[1]=rand1-1;
+				vmax[2]=coloana1;
+				}
+			}
+			board[rand1-1][coloana1]='-';
+			board[rand2+1][coloana2]='-';
+	}
+	}
+//TESTAM MUTAREA LA DREAPTA
+	if(board[rand1][coloana1+1]=='-') {
+		if(board[rand2][coloana2-1]=='-'){
+			board[rand1][coloana1+1]=ply1;
+			board[rand2][coloana2-1]=ply2;
+			v =negaMax(board,ply1,ply2,rand1,coloana1+1,rand2,coloana2-1,depth+1);
+			if(v[0]>max){
+				max=v[0];
+				if(depth==MAXDEPTH){
+					vmax[1]=rand1;
+					vmax[2]=coloana1+1;
+				}
+			}
+			board[rand1][coloana1+1]='-';
+			board[rand2][coloana2-1]='-';	
+	}
+		if(board[rand2][coloana2+1]=='-'){
+			board[rand1][coloana1+1]=ply1;
+			board[rand2][coloana2+1]=ply2;
+			v =negaMax(board,ply1,ply2,rand1,coloana1+1,rand2,coloana2+1,depth+1);
+			if(v[0]>max){
+				max=v[0];
+				if(depth==MAXDEPTH){
+				vmax[1]=rand1;
+				vmax[2]=coloana1+1;
+				}
+			}
+			board[rand1][coloana1+1]='-';
+			board[rand2][coloana2+1]='-';
+	}
+		if(board[rand2-1][coloana2]=='-'){
+			board[rand1][coloana1+1]=ply1;
+			board[rand2-1][coloana2]=ply2;
+			v =negaMax(board,ply1,ply2,rand1,coloana1+1,rand2-1,coloana2,depth+1);
+			if(v[0]>max){
+				max=v[0];
+				if(depth==MAXDEPTH){
+					vmax[1]=rand1;
+					vmax[2]=coloana1+1;
+					}
+				}
+			board[rand1][coloana1+1]='-';
+			board[rand2-1][coloana2]='-';
+	}
+		if(board[rand2+1][coloana2]=='-'){
+			board[rand1][coloana1+1]=ply1;
+			board[rand2+1][coloana2]=ply2;
+			v =negaMax(board,ply1,ply2,rand1,coloana1+1,rand2+1,coloana2,depth+1);
+			if(v[0]>max){
+				max=v[0];
+				if(depth==MAXDEPTH){
+					vmax[1]=rand1;
+					vmax[2]=coloana1+1;
+				}
+			}
+			board[rand1][coloana1+1]='-';
+			board[rand2+1][coloana2]='-';
+	}
+	}
+	
+
+	
+	
+	//TESTAM MUTAREA IN JOS
+	if(board[rand1+1][coloana1]=='-') {
+		if(board[rand2][coloana2-1]=='-'){
+			board[rand1+1][coloana1]=ply1;
+			board[rand2][coloana2-1]=ply2;
+			v =negaMax(board,ply1,ply2,rand1+1,coloana1,rand2,coloana2-1,depth+1);
+			if(v[0]>max){
+				max=v[0];
+				if(depth==MAXDEPTH){
+				vmax[1]=rand1+1;
+				vmax[2]=coloana1;
+				}
+			}
+			board[rand1+1][coloana1]='-';
+			board[rand2][coloana2-1]='-';	
+	}
+		if(board[rand2][coloana2+1]=='-'){
+			board[rand1+1][coloana1]=ply1;
+			board[rand2][coloana2+1]=ply2;
+			v =negaMax(board,ply1,ply2,rand1+1,coloana1,rand2,coloana2+1,depth+1);
+			if(v[0]>max)
+				{max=v[0];
+				if(depth==MAXDEPTH)
+				{vmax[1]=rand1+1;vmax[2]=coloana1;}
+				 }
+			board[rand1+1][coloana1]='-';
+			board[rand2][coloana2+1]='-';
+	}
+		
+		if(board[rand2-1][coloana2]=='-'){
+			board[rand1+1][coloana1]=ply1;
+			board[rand2-1][coloana2]=ply2;
+			v =negaMax(board,ply1,ply2,rand1+1,coloana1,rand2-1,coloana2,depth+1);
+			if(v[0]>max){
+				max=v[0];
+				if(depth==MAXDEPTH){
+					vmax[1]=rand1+1;
+					vmax[2]=coloana1;
+					}
+				}
+			board[rand1+1][coloana1]='-';
+			board[rand2-1][coloana2]='-';
+	}
+		if(board[rand2+1][coloana2]=='-'){
+			board[rand1+1][coloana1]=ply1;
+			board[rand2+1][coloana2]=ply2;
+			v =negaMax(board,ply1,ply2,rand1+1,coloana1,rand2+1,coloana2,depth+1);
+			if(v[0]>max){
+				max=v[0];
+				if(depth==MAXDEPTH){
+					vmax[1]=rand1+1;
+					vmax[2]=coloana1;
+				}
+			}
+			board[rand1+1][coloana1]='-';
+			board[rand2+1][coloana2]='-';	
+	}
+	}
+	
+	{
+		vmax[0]=depth+max;
+		return vmax;
+	}

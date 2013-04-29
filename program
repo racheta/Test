@@ -1,0 +1,117 @@
+  //int score,max=-INF;
+int [] vmax=new int[3];
+int [] v=new int[3];
+//ARBORELE DE SOLUTII VA AVEA ADANCIMEA MDEPTH
+if(depth<MDEPTH){
+//DACA BOTUL ADVERSARULUI NU MAI ARE CE MUTARE SA FACA SCORUL INTORS VA FI MAXIM 
+	if((board[rand2-1][coloana2]!='-'&&board[rand2+1][coloana2]!='-'&&board[rand2][coloana2-1]!='-'&&board[rand2][coloana2+1]!='-') &&
+			(board[rand2-1][coloana2]!='p'&&board[rand2+1][coloana2]!='p'&&board[rand2][coloana2-1]!='p'&&board[rand2][coloana2+1]!='p')){
+		//CAZUL DE EGALITATE
+			if((board[rand1-1][coloana1]!='-'&&board[rand1+1][coloana1]!='-'&&board[rand1][coloana1-1]!='-'&&board[rand1][coloana1+1]!='-')
+					&& (board[rand1-1][coloana1]!='p'&&board[rand1+1][coloana1]!='p'&&board[rand1][coloana1-1]!='p'&&board[rand1][coloana1+1]!='p'))
+				{
+				vmax[0]=0;
+				vmax[1]=rand1-1;
+				vmax[2]=coloana1;
+				return vmax;
+				}
+			else 
+			{ //CAZUL DE VICTORIE
+				//System.out.println("123456789\n");	
+			vmax[0]=INF;
+			if(board[rand1-1][coloana1]=='-' || board[rand1-1][coloana1]=='p')
+				{vmax[1]=rand1-1;
+				vmax[2]=coloana1;}
+				else if(board[rand1+1][coloana1]=='-' || board[rand1+1][coloana1]=='p')
+					{vmax[1]=rand1+1;
+					vmax[2]=coloana1;}
+					else if(board[rand1][coloana1-1]=='-' || board[rand1][coloana1-1]=='p')
+						{vmax[1]=rand1;
+						vmax[2]=coloana1-1;}
+						else if(board[rand1][coloana1+1]=='-' || board[rand1][coloana1+1]=='p')
+							{vmax[1]=rand1;
+							vmax[2]=coloana1+1;}
+					//System.out.print(depth+"  ");
+					return vmax;
+			}
+			}
+			//DACA BOTUL PIERDE SCORUL VA PRIMI VALOARE -INF
+	else if((board[rand1-1][coloana1]!='-'&&board[rand1+1][coloana1]!='-'&&board[rand1][coloana1-1]!='-'&&board[rand1][coloana1+1]!='-')
+			&& (board[rand1-1][coloana1]!='p'&&board[rand1+1][coloana1]!='p'&&board[rand1][coloana1-1]!='p'&&board[rand1][coloana1+1]!='p')){
+			
+		vmax[0]=-INF;
+				return vmax;
+			}
+	else{
+		//System.out.println("*****\n");
+		//if(board[rand1][coloana1] =='p'){
+			//vmax[0]+= 555555;
+			//System.out.println("IUIUIUIU\n");
+//	    }
+		vmax[0] = 0;
+	int [] vect1 = new int [8];
+	int [] vect2 = new int [8];
+	vect1 = available_moves(rand1, coloana1, board);
+	vect2 = available_moves(rand2, coloana2, board);
+	
+	for(int i = 0; i < 8; i = i+2){
+		if(vect1[i] != 0 && vect1[i+1] != 0){
+			if(board[vect1[i]][vect1[i+1]]=='p'){
+				vmax[0]+= 10;
+				System.out.println("IUIUIUIU\n");
+		    }
+			for(int j = 0; j < 8; j = j+2){
+				if(vect2[j] != 0 && vect2[j+1] != 0){
+					int p1 = 1, p2 = 1;
+					if(board[vect1[i]][vect1[i+1]] == 'p')
+							p1=0;
+					if(board[vect2[j]][vect2[j+1]] == 'p')
+							p2=0;
+					
+					
+					
+					board[vect1[i]][vect1[i+1]]=ply1;
+					board[vect2[j]][vect2[j+1]]=ply2;
+				
+					v = negaMax(board,ply1,ply2,vect1[i],vect1[i+1],vect2[j],vect2[j+1],depth+1);
+					if(v[0]>max){
+						max=v[0];
+						
+						if(depth==MAXDEPTH){
+							vmax[1]=vect1[i];
+							vmax[2]=vect1[i+1];
+							}
+						}
+		
+					if(p1 == 1)
+						board[vect1[i]][vect1[i+1]]='-';
+					else
+						board[vect1[i]][vect1[i+1]]='p';
+					if(p2 == 1)
+						board[vect2[j]][vect2[j+1]]='-';
+					else 
+						board[vect2[j]][vect2[j+1]]='p';
+					
+				}
+			}
+		}
+			
+	}
+	
+	
+	}
+	
+	
+	//vmax[0]+= max +depth;
+	//System.out.print(vmax[0] +" ");
+	vmax[0]+=max+depth;
+	return vmax;
+}
+
+else
+	{
+	vmax[0]=0;
+	return vmax;	
+	}
+			
+}
